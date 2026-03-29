@@ -3,7 +3,12 @@ import pandas as pd
 import ccxt
 import time
 from datetime import datetime
+import streamlit as st
+import ccxt
 
+# 暴力替换所有的 API 基础域名
+ccxt.binance.urls['api']['public'] = 'https://api1.binance.com'
+ccxt.binance.urls['api']['fapiPublic'] = 'https://fapi.binance.com'
 # --- 修正后的初始化 (绕过美国 IP 限制) ---
 # 使用币安的全球 API 切换节点：data-api.binance.vision 或 api1/api2/api3
 binance = ccxt.binance({
