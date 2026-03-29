@@ -4,10 +4,29 @@ import ccxt
 import time
 from datetime import datetime
 
-# --- 初始化交易所 (无需 API Key 即可获取公开行情) ---
-binance = ccxt.binance({'options': {'defaultType': 'future'}}) # 币安合约
-binance_spot = ccxt.binance({'options': {'defaultType': 'spot'}}) # 币安现货
-coinbase = ccxt.coinbase() # Coinbase 现货
+# --- 修正后的初始化 (绕过美国 IP 限制) ---
+# 使用币安的全球 API 切换节点：data-api.binance.vision 或 api1/api2/api3
+binance = ccxt.binance({
+    'options': {'defaultType': 'future'},
+    'urls': {
+        'api': {
+            'public': 'https://fapi.binance.com', # 尝试直接访问合约接口
+            'fapiPublic': 'https://fapi.binance.com'
+        }
+    }
+})
+
+binance_spot = ccxt.binance({
+    'options': {'defaultType': 'spot'},
+    'urls': {
+        'api': {
+            'public': 'https://api1.binance.com', # 切换到 api1 节点，通常能绕过限制
+        }
+    }
+})
+
+# Coinbase 通常不受此类 IP 限制，保持原样即可
+coinbase = ccxt.coinbase()
 
 def fetch_hardcore_data():
     try:
