@@ -4,14 +4,13 @@ import ccxt
 import time
 from datetime import datetime
 
-# --- 1. 强制修正 Binance 节点 (避开 451 错误) ---
 def init_exchanges():
-    # 这里的关键是使用 api1, api2 或 api3，这些通常是全球加速节点
+    # 使用 binance.vision 或 data-api 这种开发者专用且限制较少的节点
     binance_spot = ccxt.binance({
         'urls': {
             'api': {
-                'public': 'https://api1.binance.com',
-                'private': 'https://api1.binance.com',
+                'public': 'https://data-api.binance.vision',
+                'private': 'https://data-api.binance.vision',
             }
         },
         'options': {'defaultType': 'spot'}
